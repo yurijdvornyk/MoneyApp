@@ -58,7 +58,7 @@ class ProjectDetailsPresenter extends BasePresenter<ProjectDetailsContract.View>
         operation.setAmount(Double.parseDouble(amount));
         operation.setProjectId(project.getId());
         operation.setTime(LocalDateTime.now());
-        addOperation.operation(operation).execute(result -> loadOperations());
+        addOperation.operation(operation).execute(result -> start());
     }
 
     @Override

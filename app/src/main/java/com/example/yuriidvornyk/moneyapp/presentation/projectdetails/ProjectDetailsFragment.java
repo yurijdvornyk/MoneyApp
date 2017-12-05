@@ -36,6 +36,7 @@ public class ProjectDetailsFragment extends BaseFragment<ProjectDetailsContract.
 
     private FragmentProjectDetailsBinding binding;
     private OperationsAdapter adapter;
+    private AlertDialog addOperationDialog;
 
     public static ProjectDetailsFragment newInstance(Project project) {
         final ProjectDetailsFragment fragment = new ProjectDetailsFragment();
@@ -111,7 +112,7 @@ public class ProjectDetailsFragment extends BaseFragment<ProjectDetailsContract.
                 break;
             }
         }
-        new AlertDialog.Builder(getContext())
+        addOperationDialog = new AlertDialog.Builder(getContext())
                 .setTitle(R.string.add_project)
                 .setPositiveButton(R.string.save, (dialogInterface, i) ->
                         presenter.onNewOperationSaved(addOperationDialogBinding.editName.getText().toString(),
@@ -130,6 +131,14 @@ public class ProjectDetailsFragment extends BaseFragment<ProjectDetailsContract.
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
+        }
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        if (addOperationDialog != null && addOperationDialog.isShowing()) {
+            addOperationDialog.dismiss();
         }
     }
 }
