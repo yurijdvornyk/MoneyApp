@@ -9,11 +9,17 @@ import com.example.yuriidvornyk.moneyapp.presentation.base.BaseContract;
 
 public interface RootContract {
 
-    interface Presenter extends BaseContract.Presenter<View> {
+    interface Presenter extends BaseContract.Presenter<View>{
+
+        void loadCurrencyRates();
     }
 
     interface View extends BaseContract.View<Presenter> {
 
         void navigateToProjectDetails(Project project);
+
+        void showCurrencyRatesUpdateError();
+
+        void showCurrencyRatesUpdateSuccess();
     }
 }

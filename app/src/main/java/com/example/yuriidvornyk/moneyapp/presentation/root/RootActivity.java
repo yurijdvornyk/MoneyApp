@@ -1,11 +1,14 @@
 package com.example.yuriidvornyk.moneyapp.presentation.root;
 
+import android.app.AlertDialog;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import com.example.yuriidvornyk.moneyapp.R;
+import com.example.yuriidvornyk.moneyapp.data.Injection;
 import com.example.yuriidvornyk.moneyapp.data.model.Project;
 import com.example.yuriidvornyk.moneyapp.databinding.ActivityRootBinding;
 import com.example.yuriidvornyk.moneyapp.presentation.base.BaseActivity;
@@ -25,7 +28,7 @@ public class RootActivity extends BaseActivity<RootContract.Presenter> implement
         super.onCreate(savedInstanceState);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_root);
         navigator = Navigator.getInstance();
-        presenter = new RootPresenter();
+        presenter = new RootPresenter(Injection.provideLoadCurrencyRates());
         binding.bottomNavigation.setOnNavigationItemSelectedListener(this::onBottomNavigationItemSelected);
     }
 
@@ -44,6 +47,12 @@ public class RootActivity extends BaseActivity<RootContract.Presenter> implement
         }
     }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+        presenter.loadCurrencyRates();
+    }
+
     private boolean onBottomNavigationItemSelected(final MenuItem item) {
         switch (item.getItemId()) {
             case R.id.projects:
@@ -57,5 +66,20 @@ public class RootActivity extends BaseActivity<RootContract.Presenter> implement
     @Override
     public void navigateToProjectDetails(Project project) {
         navigator.navigateToProjectDetails(this, project);
+    }
+
+    @Override
+    public void showCurrencyRatesUpdateError() {
+        new AlertDialog.Builder(this)
+                .setTitle(R.string.error)
+                .setMessage(R.string.error_loading_currencies_message)
+                .setPositiveButton(R.string.try_again, (dialogInterface, i) -> presenter.loadCurrencyRates())
+                .setNegativeButton(R.string.cancel, null)
+                .show();
+    }
+
+    @Override
+    public void showCurrencyRatesUpdateSuccess() {
+        Toast.makeText(this, "Rates updated successfully!", Toast.LENGTH_SHORT).show();
     }
 }

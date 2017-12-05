@@ -61,7 +61,7 @@ public class CurrencyRateRepository {
         }
     }
 
-    private Flowable<List<DbCurrencyRate>> updateCurrencyRates() {
+    public Flowable<List<CurrencyRate>> updateCurrencyRates() {
         return dataSource.loadCurrencyRates()
                 .map(currencyRates -> {
                     dataSource.clearRates();
@@ -69,6 +69,7 @@ public class CurrencyRateRepository {
                     return currencyRates;
                 })
                 .flatMapIterable(list -> list)
+                .map(rate -> mapper.fromLocal(rate))
                 .toList()
                 .toFlowable();
     }
