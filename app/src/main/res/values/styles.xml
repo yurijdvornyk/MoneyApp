@@ -1,0 +1,33 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
+    <style name="TitleTextStyle">
+        <item name="android:textSize">@dimen/text_title</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="SubtitleTextStyle">
+        <item name="android:textSize">@dimen/text_subtitle</item>
+    </style>
+
+    <style name="BalanceTextStyle">
+        <item name="android:textSize">@dimen/text_balance</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="ListItemTitleTextStyle">
+        <item name="android:textSize">@dimen/text_item_title</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <dimen name="text_balance">36sp</dimen>
+</resources>
