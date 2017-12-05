@@ -28,8 +28,8 @@ public class CurrencyDataSource {
         this.service = service;
     }
 
-    public Flowable<DbCurrencyRate> getCurrencyRate(String from, String to) {
-        return Flowable.fromCallable(() -> database.moneyDao().getCurrencyRate(from, to));
+    public Flowable<DbCurrencyRate> getCurrencyRate(String to) {
+        return Flowable.fromCallable(() -> database.moneyDao().getCurrencyRate(DEFAULT_CURRENCY_CODE, to));
     }
 
     public Flowable<List<DbCurrencyRate>> loadCurrencyRates() {

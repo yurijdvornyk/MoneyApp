@@ -30,26 +30,9 @@ class ProjectsAdapter extends RecyclerView.Adapter<ProjectsAdapter.ViewHolder> {
         projects = new ArrayList<>();
     }
 
-    void setProjects(List<Project> projects) {
+    void setProjects(List<Pair<Project, Double>> projects) {
         this.projects.clear();
-        for (Project project : projects) {
-            this.projects.add(Pair.create(project, null));
-        }
-        notifyDataSetChanged();
-    }
-
-    void setBalance(Pair<Project, Double> projectBalance) {
-        boolean containsProject = false;
-        for (int i = 0; i < projects.size(); i++) {
-            if (projects.get(i).first.getId().equals(projectBalance.first.getId())) {
-                projects.set(i, projectBalance);
-                containsProject = true;
-                break;
-            }
-        }
-        if (!containsProject) {
-            projects.add(projectBalance);
-        }
+        this.projects.addAll(projects);
         notifyDataSetChanged();
     }
 

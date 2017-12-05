@@ -25,10 +25,8 @@ interface ProjectsContract {
 
     interface View extends BaseContract.View<Presenter> {
 
-        void setProjects(List<Project> projects);
+        void setProjects(List<Pair<Project, Double>> projects);
 
         void showAddProjectDialog(List<Currency> currencies);
-
-        void setProjectBalance(Pair<Project, Double> projectBalance);
     }
 }

@@ -19,7 +19,7 @@ import com.example.yuriidvornyk.moneyapp.data.usecase.operation.AddOperation;
 import com.example.yuriidvornyk.moneyapp.data.usecase.operation.GetOperations;
 import com.example.yuriidvornyk.moneyapp.data.usecase.projects.AddProject;
 import com.example.yuriidvornyk.moneyapp.data.usecase.projects.GetBalance;
-import com.example.yuriidvornyk.moneyapp.data.usecase.projects.GetProjects;
+import com.example.yuriidvornyk.moneyapp.data.usecase.projects.GetProjectsWithBalance;
 import com.example.yuriidvornyk.moneyapp.service.CurrencyRateService;
 
 import io.reactivex.Scheduler;
@@ -32,8 +32,8 @@ import io.reactivex.schedulers.Schedulers;
 
 public class Injection {
 
-    public static GetProjects provideGetProjects() {
-        return new GetProjects(provideProjectRepository(), provideExecutionThread(), provideResultThread());
+    public static GetProjectsWithBalance provideGetProjects() {
+        return new GetProjectsWithBalance(provideProjectRepository(), provideGetBalance(), provideExecutionThread(), provideResultThread());
     }
 
     public static GetBalance provideGetBalance() {

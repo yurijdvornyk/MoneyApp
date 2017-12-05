@@ -40,8 +40,7 @@ public class ProjectsFragment extends BaseFragment<ProjectsContract.Presenter> i
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_projects, container, false);
-        presenter = new ProjectsPresenter(Injection.provideGetProjects(), Injection.provideGetBalance(),
-                Injection.provideAddProject(), Injection.provideGetCurrencies());
+        presenter = new ProjectsPresenter(Injection.provideGetProjects(), Injection.provideAddProject(), Injection.provideGetCurrencies());
         adapter = new ProjectsAdapter(getContext(), this);
         final LinearLayoutManager layoutManager = new LinearLayoutManager(getContext(),
                 LinearLayoutManager.VERTICAL, false);
@@ -67,7 +66,7 @@ public class ProjectsFragment extends BaseFragment<ProjectsContract.Presenter> i
     }
 
     @Override
-    public void setProjects(List<Project> projects) {
+    public void setProjects(List<Pair<Project, Double>> projects) {
         adapter.setProjects(projects);
     }
 
@@ -86,11 +85,6 @@ public class ProjectsFragment extends BaseFragment<ProjectsContract.Presenter> i
                 .setNegativeButton(R.string.cancel, null)
                 .setView(dialogBinding.getRoot())
                 .show();
-    }
-
-    @Override
-    public void setProjectBalance(Pair<Project, Double> projectBalance) {
-        adapter.setBalance(projectBalance);
     }
 
     @Override
