@@ -36,8 +36,6 @@ public class GetRate extends UseCase<Double> {
 
     @Override
     protected Flowable<Double> buildUseCaseFlowable() {
-        return repository.getRate(from, to).map(currencyRate -> {
-            return amount * currencyRate.getRate();
-        });
+        return repository.getRate(from, to).map(currencyRate -> amount * currencyRate.getRate());
     }
 }

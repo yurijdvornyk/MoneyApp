@@ -11,7 +11,7 @@ public interface RootContract {
 
     interface Presenter extends BaseContract.Presenter<View>{
 
-        void loadCurrencyRates();
+        void loadRatesIfNeeded();
     }
 
     interface View extends BaseContract.View<Presenter> {

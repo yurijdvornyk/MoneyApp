@@ -28,7 +28,7 @@ public class RootActivity extends BaseActivity<RootContract.Presenter> implement
         super.onCreate(savedInstanceState);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_root);
         navigator = Navigator.getInstance();
-        presenter = new RootPresenter(Injection.provideLoadCurrencyRates());
+        presenter = new RootPresenter(Injection.provideLastRateUpdateTime(), Injection.provideLoadCurrencyRates());
         binding.bottomNavigation.setOnNavigationItemSelectedListener(this::onBottomNavigationItemSelected);
     }
 
@@ -50,7 +50,7 @@ public class RootActivity extends BaseActivity<RootContract.Presenter> implement
     @Override
     protected void onStart() {
         super.onStart();
-        presenter.loadCurrencyRates();
+        presenter.loadRatesIfNeeded();
     }
 
     private boolean onBottomNavigationItemSelected(final MenuItem item) {
@@ -73,7 +73,7 @@ public class RootActivity extends BaseActivity<RootContract.Presenter> implement
         new AlertDialog.Builder(this)
                 .setTitle(R.string.error)
                 .setMessage(R.string.error_loading_currencies_message)
-                .setPositiveButton(R.string.try_again, (dialogInterface, i) -> presenter.loadCurrencyRates())
+                .setPositiveButton(R.string.try_again, (dialogInterface, i) -> presenter.loadRatesIfNeeded())
                 .setNegativeButton(R.string.cancel, null)
                 .show();
     }

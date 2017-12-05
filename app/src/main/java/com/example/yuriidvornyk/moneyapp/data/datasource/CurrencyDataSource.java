@@ -32,6 +32,10 @@ public class CurrencyDataSource {
         return Flowable.fromCallable(() -> database.moneyDao().getCurrencyRate(DEFAULT_CURRENCY_CODE, to));
     }
 
+    public Flowable<List<LocalDateTime>> getCurrencyRateUpdateTimes() {
+        return Flowable.fromCallable(() -> database.moneyDao().getCurrencyRateUpdateTimes());
+    }
+
     public Flowable<List<DbCurrencyRate>> loadCurrencyRates() {
         return service.getAPI().getCurrencyRates("json").map(responseBody -> {
             final List<DbCurrencyRate> result = new ArrayList<>();

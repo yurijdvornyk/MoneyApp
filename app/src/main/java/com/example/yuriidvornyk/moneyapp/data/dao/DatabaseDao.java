@@ -9,6 +9,8 @@ import com.example.yuriidvornyk.moneyapp.data.local.DbCurrencyRate;
 import com.example.yuriidvornyk.moneyapp.data.local.DbOperation;
 import com.example.yuriidvornyk.moneyapp.data.local.DbProject;
 
+import org.threeten.bp.LocalDateTime;
+
 import java.util.List;
 
 /**
@@ -25,6 +27,9 @@ public interface DatabaseDao {
 
     @Query("SELECT * FROM DbCurrencyRate WHERE (currencyFrom LIKE :from) AND (currencyTo LIKE :to)")
     DbCurrencyRate getCurrencyRate(String from, String to);
+
+    @Query("SELECT lastSyncTime FROM DbCurrencyRate")
+    List<LocalDateTime> getCurrencyRateUpdateTimes();
 
     @Insert
     void saveProjects(DbProject... projects);

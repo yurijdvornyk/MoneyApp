@@ -13,6 +13,7 @@ import com.example.yuriidvornyk.moneyapp.data.repository.CurrencyRepository;
 import com.example.yuriidvornyk.moneyapp.data.repository.OperationRepository;
 import com.example.yuriidvornyk.moneyapp.data.repository.ProjectRepository;
 import com.example.yuriidvornyk.moneyapp.data.usecase.currency.GetCurrencies;
+import com.example.yuriidvornyk.moneyapp.data.usecase.currency.LastRatesUpdateTime;
 import com.example.yuriidvornyk.moneyapp.data.usecase.currency.GetRate;
 import com.example.yuriidvornyk.moneyapp.data.usecase.currency.LoadCurrencyRates;
 import com.example.yuriidvornyk.moneyapp.data.usecase.operation.AddOperation;
@@ -62,6 +63,10 @@ public class Injection {
 
     public static LoadCurrencyRates provideLoadCurrencyRates() {
         return new LoadCurrencyRates(provideCurrencyRateRepository(), provideExecutionThread(), provideResultThread());
+    }
+
+    public static LastRatesUpdateTime provideLastRateUpdateTime() {
+        return new LastRatesUpdateTime(provideCurrencyRateRepository(), provideExecutionThread(), provideResultThread());
     }
 
     private static CurrencyRateRepository provideCurrencyRateRepository() {
