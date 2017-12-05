@@ -34,6 +34,13 @@ public class CurrencyRateRepository {
 
     public Flowable<List<CurrencyRate>> updateCurrencyRates() {
         return dataSource.loadCurrencyRates()
+                .flatMapIterable(list -> list)
+                .map(rate -> {
+                    rate.setLastSyncTime(LocalDateTime.now());
+                    return rate;
+                })
+                .toList()
+                .toFlowable()
                 .map(currencyRates -> {
                     dataSource.clearRates();
                     dataSource.saveRates(currencyRates);

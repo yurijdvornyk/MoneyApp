@@ -18,7 +18,7 @@ import io.reactivex.Flowable;
 
 public class CurrencyDataSource {
 
-    public static final String DEFAULT_CURRENCY_CODE = "USD";
+    public static final String DEFAULT_CURRENCY_CODE = "EUR";
 
     private MoneyDatabase database;
     private CurrencyRateService service;
@@ -37,22 +37,22 @@ public class CurrencyDataSource {
     }
 
     public Flowable<List<DbCurrencyRate>> loadCurrencyRates() {
-        return service.getAPI().getCurrencyRates("json").map(responseBody -> {
-            final List<DbCurrencyRate> result = new ArrayList<>();
-            final JSONArray entries = new JSONObject(responseBody.string())
-                    .getJSONObject("feed")
-                    .getJSONArray("entry");
+        return service.getAPI().getCurrencyRates(CurrencyRateService.DOCUMENT_ID).map(responseBody -> {
+            final String body = responseBody.string();
+            final int startIndex = body.indexOf("(");
+            final int endIndex = body.lastIndexOf(")");
+            final List<DbCurrencyRate> rates = new ArrayList<>();
+            final String jsonContent = body.substring(startIndex + 1, endIndex);
+            final JSONArray entries = new JSONObject(jsonContent).getJSONObject("table").getJSONArray("rows");
             for (int i = 0; i < entries.length(); i++) {
-                final JSONObject entry = entries.getJSONObject(i);
                 final DbCurrencyRate rate = new DbCurrencyRate();
+                final JSONArray entry = entries.getJSONObject(i).getJSONArray("c");
                 rate.setCurrencyFrom(DEFAULT_CURRENCY_CODE);
-                rate.setCurrencyTo(entry.getJSONObject("title").getString("$t"));
-                final String[] rateRaw = entry.getJSONObject("content").getString("$t").split(" ");
-                rate.setRate(Double.parseDouble(rateRaw[rateRaw.length - 1]));
-                rate.setLastSyncTime(LocalDateTime.now());
-                result.add(rate);
+                rate.setCurrencyTo(String.valueOf(entry.getJSONObject(0).get("v")));
+                rate.setRate(Double.valueOf(entry.getJSONObject(1).get("f").toString()));
+                rates.add(rate);
             }
-            return result;
+            return rates;
         });
     }
 

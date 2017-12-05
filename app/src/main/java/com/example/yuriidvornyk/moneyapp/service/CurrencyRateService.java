@@ -14,12 +14,14 @@ import retrofit2.http.Query;
  */
 
 public class CurrencyRateService {
-    private static String BASE_URL = "http://spreadsheets.google.com/feeds/list/0Av2v4lMxiJ1AdE9laEZJdzhmMzdmcW90VWNfUTYtM2c/2/public/";
+    public static final String DOCUMENT_ID = "1b3T-mkqrJWtcZW73i7YmaeSqnvEmFJNvo3EBsDOHhdg";
+    private static final String BASE_URL = "https://spreadsheets.google.com/";
 
     // http://currencyfeed.com/
+    // https://www.telerik.com/blogs/google-spreadsheet-as-data-source-android
     public interface CurrencyRateApi {
-        @GET("basic")
-        Flowable<ResponseBody> getCurrencyRates(@Query("alt") String alt);
+        @GET("tq")
+        Flowable<ResponseBody> getCurrencyRates(@Query("key") String key);
     }
 
     public CurrencyRateApi getAPI() {
