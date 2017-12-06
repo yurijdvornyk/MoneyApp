@@ -2,6 +2,7 @@ package com.example.yuriidvornyk.moneyapp.data.datasource;
 
 import com.example.yuriidvornyk.moneyapp.data.local.DbCurrencyRate;
 import com.example.yuriidvornyk.moneyapp.service.CurrencyRateService;
+import com.example.yuriidvornyk.moneyapp.utils.CurrencyRateUtils;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -29,7 +30,13 @@ public class CurrencyDataSource {
     }
 
     public Flowable<DbCurrencyRate> getCurrencyRate(String to) {
-        return Flowable.fromCallable(() -> database.moneyDao().getCurrencyRate(DEFAULT_CURRENCY_CODE, to));
+        return Flowable.fromCallable(() -> {
+            if (DEFAULT_CURRENCY_CODE.equals(to)) {
+                return CurrencyRateUtils.getSingleRate(to);
+            } else {
+                return database.moneyDao().getCurrencyRate(DEFAULT_CURRENCY_CODE, to);
+            }
+        });
     }
 
     public Flowable<List<LocalDateTime>> getCurrencyRateUpdateTimes() {
