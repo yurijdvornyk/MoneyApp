@@ -23,18 +23,15 @@ class ProjectDetailsPresenter extends BasePresenter<ProjectDetailsContract.View>
     private GetOperations getOperations;
     private GetCurrencies getCurrencies;
     private AddOperation addOperation;
-    private GetRate getRate;
-
     private Project project;
 
     ProjectDetailsPresenter(Project project, GetBalance getBalance, GetOperations getOperations,
-                            GetCurrencies getCurrencies, AddOperation addOperation, GetRate getRate) {
+                            GetCurrencies getCurrencies, AddOperation addOperation) {
         this.project = project;
         this.getBalance = getBalance;
         this.getOperations = getOperations;
         this.getCurrencies = getCurrencies;
         this.addOperation = addOperation;
-        this.getRate = getRate;
     }
 
     @Override

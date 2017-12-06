@@ -2,51 +2,62 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <android.support.v7.widget.CardView
+    <LinearLayout
+        android:id="@+id/layout_item"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/space_single"
-        android:layout_marginEnd="@dimen/space_double"
-        android:layout_marginStart="@dimen/space_double"
-        android:layout_marginTop="@dimen/space_single">
+        android:background="@color/white"
+        android:focusable="true"
+        android:orientation="vertical"
+        android:paddingEnd="@dimen/space_double"
+        android:paddingStart="@dimen/space_double">
 
-        <FrameLayout
-            android:id="@+id/layout_item"
+        <TextView
+            android:id="@+id/project_name"
+            style="@style/ListItemTitleTextStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/space_double"
+            tools:text="Project name" />
+
+        <TextView
+            android:id="@+id/text_balance"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:text="+15.93 EUR" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/space_least"
+            android:layout_marginTop="@dimen/space_half"
+            android:background="@color/grey_semitransparent" />
+
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:background="?selectableItemBackground"
-            android:clickable="true"
-            android:focusable="true"
-            android:padding="@dimen/space_double">
+            android:gravity="end">
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="start"
-                android:gravity="center_vertical"
-                android:orientation="vertical">
-
-                <TextView
-                    android:id="@+id/project_name"
-                    style="@style/ListItemTitleTextStyle"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    tools:text="Project name" />
-
-                <TextView
-                    android:id="@+id/text_balance"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    tools:text="+15.93 EUR" />
-            </LinearLayout>
-
-            <ImageView
-                android:layout_gravity="end|center_vertical"
+            <TextView
+                android:id="@+id/button_details"
+                style="@style/TextButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/ic_keyboard_arrow_right_black_18px"
-                android:tint="@color/white_semitransparent" />
-        </FrameLayout>
-    </android.support.v7.widget.CardView>
+                android:text="@string/project_details" />
+
+            <TextView
+                android:id="@+id/button_add_operation"
+                style="@style/TextButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/add_operation" />
+
+        </LinearLayout>
+
+        <!--<ImageView
+            android:layout_gravity="end|center_vertical"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_keyboard_arrow_right_black_18px"
+            android:tint="@color/white_semitransparent" />-->
+    </LinearLayout>
 </layout>

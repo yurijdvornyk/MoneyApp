@@ -9,4 +9,5 @@
     <color name="white_semitransparent">#99FFFFFF</color>
     <color name="green">#003d00</color>
     <color name="red">#a30000</color>
+    <color name="grey_semitransparent">#66999999</color>
 </resources>

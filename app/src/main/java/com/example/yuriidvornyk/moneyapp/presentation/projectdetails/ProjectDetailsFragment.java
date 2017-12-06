@@ -54,8 +54,7 @@ public class ProjectDetailsFragment extends BaseFragment<ProjectDetailsContract.
         super.onCreate(savedInstanceState);
         final Project project = Parcels.unwrap(getArguments().getParcelable(ARG_PROJECT_DETAILS_PROJECT));
         presenter = new ProjectDetailsPresenter(project, Injection.provideGetBalance(),
-                Injection.provideGetOperations(), Injection.provideGetCurrencies(), Injection.provideAddOperation(),
-                Injection.provideGetRate());
+                Injection.provideGetOperations(), Injection.provideGetCurrencies(), Injection.provideAddOperation());
     }
 
     @Nullable

@@ -29,5 +29,12 @@
         <item name="android:textStyle">bold</item>
     </style>
 
+    <style name="TextButton">
+        <item name="android:textAllCaps">true</item>
+        <item name="android:padding">@dimen/space_single</item>
+        <item name="android:clickable">true</item>
+        <item name="android:background">?selectableItemBackground</item>
+    </style>
+
     <dimen name="text_balance">36sp</dimen>
 </resources>

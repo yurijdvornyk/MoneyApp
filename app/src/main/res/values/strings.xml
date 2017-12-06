@@ -19,4 +19,5 @@
     <string name="error">Error</string>
     <string name="error_loading_currencies_message">There was an error while updating currency rates.</string>
     <string name="try_again">Try Again</string>
+    <string name="add_operation">Add operation</string>
 </resources>

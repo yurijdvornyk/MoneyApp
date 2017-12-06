@@ -62,7 +62,7 @@ class ProjectsAdapter extends RecyclerView.Adapter<ProjectsAdapter.ViewHolder> {
 
         void bind(final Project project, Double balance) {
             binding.projectName.setText(project.getName());
-            binding.layoutItem.setOnClickListener(view -> listener.onItemClicked(project));
+            binding.buttonDetails.setOnClickListener(view -> listener.onItemClicked(project));
             if (balance != null) {
                 binding.textBalance.setVisibility(View.VISIBLE);
                 binding.textBalance.setText(OperationUtils.formatBalance(context, balance, project.getDefaultCurrency()));
