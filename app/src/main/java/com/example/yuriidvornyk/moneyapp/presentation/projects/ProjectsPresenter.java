@@ -4,6 +4,7 @@ import com.example.yuriidvornyk.moneyapp.data.model.Currency;
 import com.example.yuriidvornyk.moneyapp.data.model.Project;
 import com.example.yuriidvornyk.moneyapp.data.usecase.currency.GetCurrencies;
 import com.example.yuriidvornyk.moneyapp.data.usecase.projects.AddProject;
+import com.example.yuriidvornyk.moneyapp.data.usecase.projects.GetBalance;
 import com.example.yuriidvornyk.moneyapp.data.usecase.projects.GetProjectsWithBalance;
 import com.example.yuriidvornyk.moneyapp.presentation.base.BasePresenter;
 
@@ -16,11 +17,14 @@ import org.threeten.bp.LocalDateTime;
 class ProjectsPresenter extends BasePresenter<ProjectsContract.View> implements ProjectsContract.Presenter {
 
     private GetProjectsWithBalance getProjectsWithBalance;
+    private GetBalance getBalance;
     private GetCurrencies getCurrencies;
     private AddProject addProject;
 
-    ProjectsPresenter(GetProjectsWithBalance getProjectsWithBalance, AddProject addProject, GetCurrencies getCurrencies) {
+    ProjectsPresenter(GetProjectsWithBalance getProjectsWithBalance, AddProject addProject,
+                      GetCurrencies getCurrencies, GetBalance getBalance) {
         this.getProjectsWithBalance = getProjectsWithBalance;
+        this.getBalance = getBalance;
         this.addProject = addProject;
         this.getCurrencies = getCurrencies;
     }
@@ -42,6 +46,11 @@ class ProjectsPresenter extends BasePresenter<ProjectsContract.View> implements 
     @Override
     public void onAddProjectClicked() {
         getCurrencies.execute(view::showAddProjectDialog);
+    }
+
+    @Override
+    public void onOperationAdded(Project project) {
+        getBalance.project(project).execute(view::updateProjectItem);
     }
 
     @Override

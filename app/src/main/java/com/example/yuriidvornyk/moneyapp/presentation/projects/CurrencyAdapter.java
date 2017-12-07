@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.TextView;
 
 import com.example.yuriidvornyk.moneyapp.data.model.Currency;
 import com.example.yuriidvornyk.moneyapp.databinding.ItemCurrencySpinnerBinding;
@@ -28,18 +29,29 @@ public class CurrencyAdapter extends ArrayAdapter<Currency> {
     @NonNull
     @Override
     public View getView(int position, View convertView, @NonNull ViewGroup parent) {
-        // FIXME
-        final ItemCurrencySpinnerBinding binding =
-                ItemCurrencySpinnerBinding.inflate(LayoutInflater.from(getContext()), parent, false);
+        View view = convertView;
+        ViewHolder holder;
         final Currency currency = getItem(position);
-        if (currency != null) {
-            binding.text.setText(String.format(CURRENCY_FORMAT, currency.getCode(), currency.getName()));
+        if (view == null) {
+            final ItemCurrencySpinnerBinding binding = ItemCurrencySpinnerBinding
+                    .inflate(LayoutInflater.from(getContext()), parent, false);
+            view = binding.getRoot();
+            holder = new ViewHolder();
+            holder.titleTextView = binding.text;
+            view.setTag(holder);
+        } else {
+            holder = (ViewHolder) convertView.getTag();
         }
-        return binding.getRoot();
+        holder.titleTextView.setText(String.format(CURRENCY_FORMAT, currency.getCode(), currency.getName()));
+        return view;
     }
 
     @Override
     public View getDropDownView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
         return getView(position, convertView, parent);
+    }
+
+    class ViewHolder {
+        TextView titleTextView;
     }
 }

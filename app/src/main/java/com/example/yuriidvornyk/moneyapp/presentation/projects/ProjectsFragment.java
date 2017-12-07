@@ -1,5 +1,7 @@
 package com.example.yuriidvornyk.moneyapp.presentation.projects;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -17,8 +19,11 @@ import com.example.yuriidvornyk.moneyapp.data.model.Currency;
 import com.example.yuriidvornyk.moneyapp.data.model.Project;
 import com.example.yuriidvornyk.moneyapp.databinding.DialogAddProjectBinding;
 import com.example.yuriidvornyk.moneyapp.databinding.FragmentProjectsBinding;
+import com.example.yuriidvornyk.moneyapp.presentation.addoperation.AddOperationDialog;
 import com.example.yuriidvornyk.moneyapp.presentation.base.BaseFragment;
 import com.example.yuriidvornyk.moneyapp.presentation.root.RootContract;
+
+import org.parceler.Parcels;
 
 import java.util.List;
 
@@ -41,10 +46,13 @@ public class ProjectsFragment extends BaseFragment<ProjectsContract.Presenter> i
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_projects, container, false);
-        presenter = new ProjectsPresenter(Injection.provideGetProjects(), Injection.provideAddProject(), Injection.provideGetCurrencies());
+        presenter = new ProjectsPresenter(Injection.provideGetProjects(), Injection.provideAddProject(),
+                Injection.provideGetCurrencies(), Injection.provideGetBalance());
         adapter = new ProjectsAdapter(getContext(), this);
         final LinearLayoutManager layoutManager = new LinearLayoutManager(getContext(),
                 LinearLayoutManager.VERTICAL, false);
+        layoutManager.setReverseLayout(true);
+        layoutManager.setStackFromEnd(true);
         binding.recyclerProjects.setLayoutManager(layoutManager);
         binding.recyclerProjects.setAdapter(adapter);
         binding.recyclerProjects.addItemDecoration(new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL));
@@ -90,7 +98,31 @@ public class ProjectsFragment extends BaseFragment<ProjectsContract.Presenter> i
     }
 
     @Override
-    public void onItemClicked(Project project) {
+    public void updateProjectItem(Pair<Project, Double> item) {
+        adapter.updateItem(item);
+    }
+
+    @Override
+    public void onShowDetailsClicked(Project project) {
         ((RootContract.View) getActivity()).navigateToProjectDetails(project);
+    }
+
+    @Override
+    public void onAddOperationClicked(Project project) {
+        final AddOperationDialog dialog = AddOperationDialog.newInstance(project);
+        dialog.setTargetFragment(this, AddOperationDialog.REQUEST_CODE);
+        dialog.show(getAppCompatActivity().getSupportFragmentManager(), AddOperationDialog.TAG);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == AddOperationDialog.REQUEST_CODE &&
+                resultCode == Activity.RESULT_OK &&
+                data.hasExtra(AddOperationDialog.ADD_OPERATION_PROJECT_EXTRA)) {
+            final Project project = Parcels.unwrap(data.getParcelableExtra(AddOperationDialog.ADD_OPERATION_PROJECT_EXTRA));
+            presenter.onOperationAdded(project);
+        } else {
+            super.onActivityResult(requestCode, resultCode, data);
+        }
     }
 }

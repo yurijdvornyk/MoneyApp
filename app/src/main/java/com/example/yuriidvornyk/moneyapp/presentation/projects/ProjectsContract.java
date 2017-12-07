@@ -1,5 +1,6 @@
 package com.example.yuriidvornyk.moneyapp.presentation.projects;
 
+import android.os.Parcelable;
 import android.support.v4.util.Pair;
 
 import com.example.yuriidvornyk.moneyapp.data.model.Currency;
@@ -21,6 +22,8 @@ interface ProjectsContract {
         void onNewProjectSaved(String name, Currency currency);
 
         void onAddProjectClicked();
+
+        void onOperationAdded(Project project);
     }
 
     interface View extends BaseContract.View<Presenter> {
@@ -28,5 +31,7 @@ interface ProjectsContract {
         void setProjects(List<Pair<Project, Double>> projects);
 
         void showAddProjectDialog(List<Currency> currencies);
+
+        void updateProjectItem(Pair<Project, Double> item);
     }
 }

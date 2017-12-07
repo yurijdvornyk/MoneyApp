@@ -1,9 +1,10 @@
 package com.example.yuriidvornyk.moneyapp.presentation.projectdetails;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.view.LayoutInflater;
@@ -13,13 +14,11 @@ import android.view.ViewGroup;
 
 import com.example.yuriidvornyk.moneyapp.R;
 import com.example.yuriidvornyk.moneyapp.data.Injection;
-import com.example.yuriidvornyk.moneyapp.data.model.Currency;
 import com.example.yuriidvornyk.moneyapp.data.model.Operation;
 import com.example.yuriidvornyk.moneyapp.data.model.Project;
-import com.example.yuriidvornyk.moneyapp.databinding.DialogAddOperationBinding;
 import com.example.yuriidvornyk.moneyapp.databinding.FragmentProjectDetailsBinding;
+import com.example.yuriidvornyk.moneyapp.presentation.addoperation.AddOperationDialog;
 import com.example.yuriidvornyk.moneyapp.presentation.base.BaseFragment;
-import com.example.yuriidvornyk.moneyapp.presentation.projects.CurrencyAdapter;
 import com.example.yuriidvornyk.moneyapp.presentation.utils.OperationUtils;
 
 import org.parceler.Parcels;
@@ -36,7 +35,7 @@ public class ProjectDetailsFragment extends BaseFragment<ProjectDetailsContract.
 
     private FragmentProjectDetailsBinding binding;
     private OperationsAdapter adapter;
-    private AlertDialog addOperationDialog;
+    private AddOperationDialog addOperationDialog;
 
     public static ProjectDetailsFragment newInstance(Project project) {
         final ProjectDetailsFragment fragment = new ProjectDetailsFragment();
@@ -64,6 +63,7 @@ public class ProjectDetailsFragment extends BaseFragment<ProjectDetailsContract.
         adapter = new OperationsAdapter(getContext());
         binding.recyclerOperations.setAdapter(adapter);
         final LinearLayoutManager layoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
+        layoutManager.setReverseLayout(true);
         binding.recyclerOperations.setLayoutManager(layoutManager);
         DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(
                 binding.recyclerOperations.getContext(), layoutManager.getOrientation());
@@ -98,28 +98,10 @@ public class ProjectDetailsFragment extends BaseFragment<ProjectDetailsContract.
     }
 
     @Override
-    public void showAddOperationDialog(List<Currency> currencies, String defaultCurrency) {
-        final CurrencyAdapter adapter = new CurrencyAdapter(getContext(), R.layout.item_currency_spinner, currencies);
-        adapter.setDropDownViewResource(R.layout.item_currency_spinner);
-
-        final DialogAddOperationBinding addOperationDialogBinding =
-                DialogAddOperationBinding.inflate(LayoutInflater.from(getContext()), (ViewGroup) getView().getParent(), false);
-        addOperationDialogBinding.spinnerCurrency.setAdapter(adapter);
-        for (int i = 0; i < currencies.size(); i++) {
-            if (currencies.get(i).getCode().equals(defaultCurrency)) {
-                addOperationDialogBinding.spinnerCurrency.setSelection(i);
-                break;
-            }
-        }
-        addOperationDialog = new AlertDialog.Builder(getContext())
-                .setTitle(R.string.add_project)
-                .setPositiveButton(R.string.save, (dialogInterface, i) ->
-                        presenter.onNewOperationSaved(addOperationDialogBinding.editName.getText().toString(),
-                                (Currency) addOperationDialogBinding.spinnerCurrency.getSelectedItem(),
-                                addOperationDialogBinding.editAmount.getText().toString()))
-                .setNegativeButton(R.string.cancel, null)
-                .setView(addOperationDialogBinding.getRoot())
-                .show();
+    public void showAddOperationDialog(Project project) {
+        addOperationDialog = AddOperationDialog.newInstance(project);
+        addOperationDialog.setTargetFragment(this, AddOperationDialog.REQUEST_CODE);
+        addOperationDialog.show(getAppCompatActivity().getSupportFragmentManager(), AddOperationDialog.TAG);
     }
 
     @Override
@@ -136,8 +118,17 @@ public class ProjectDetailsFragment extends BaseFragment<ProjectDetailsContract.
     @Override
     public void onStop() {
         super.onStop();
-        if (addOperationDialog != null && addOperationDialog.isShowing()) {
-            addOperationDialog.dismiss();
+        if (addOperationDialog != null && addOperationDialog.isVisible()) {
+            addOperationDialog.close(Activity.RESULT_CANCELED, null);
+        }
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == AddOperationDialog.REQUEST_CODE && resultCode == Activity.RESULT_OK) {
+            presenter.start();
+        } else {
+            super.onActivityResult(requestCode, resultCode, data);
         }
     }
 }

@@ -30,12 +30,6 @@ class ProjectsAdapter extends RecyclerView.Adapter<ProjectsAdapter.ViewHolder> {
         projects = new ArrayList<>();
     }
 
-    void setProjects(List<Pair<Project, Double>> projects) {
-        this.projects.clear();
-        this.projects.addAll(projects);
-        notifyDataSetChanged();
-    }
-
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         return new ViewHolder(ItemProjectsBinding.inflate(LayoutInflater.from(context), parent, false));
@@ -51,6 +45,25 @@ class ProjectsAdapter extends RecyclerView.Adapter<ProjectsAdapter.ViewHolder> {
         return projects == null ? 0 : projects.size();
     }
 
+    void setProjects(List<Pair<Project, Double>> projects) {
+        this.projects.clear();
+        this.projects.addAll(projects);
+        notifyDataSetChanged();
+    }
+
+    void updateItem(Pair<Project, Double> item) {
+        int position = -1;
+        for (int i = 0; i < projects.size(); i++) {
+            if (projects.get(i).first.getId().equals(item.first.getId())) {
+                position = i;
+            }
+        }
+        if (position >= 0) {
+            projects.set(position, item);
+            notifyItemChanged(position);
+        }
+    }
+
     class ViewHolder extends RecyclerView.ViewHolder {
 
         private ItemProjectsBinding binding;
@@ -62,7 +75,8 @@ class ProjectsAdapter extends RecyclerView.Adapter<ProjectsAdapter.ViewHolder> {
 
         void bind(final Project project, Double balance) {
             binding.projectName.setText(project.getName());
-            binding.buttonDetails.setOnClickListener(view -> listener.onItemClicked(project));
+            binding.buttonDetails.setOnClickListener(view -> listener.onShowDetailsClicked(project));
+            binding.buttonAddOperation.setOnClickListener(view -> listener.onAddOperationClicked(project));
             if (balance != null) {
                 binding.textBalance.setVisibility(View.VISIBLE);
                 binding.textBalance.setText(OperationUtils.formatBalance(context, balance, project.getDefaultCurrency()));
@@ -73,6 +87,9 @@ class ProjectsAdapter extends RecyclerView.Adapter<ProjectsAdapter.ViewHolder> {
     }
 
     interface OnProjectItemClickListener {
-        void onItemClicked(Project project);
+
+        void onShowDetailsClicked(Project project);
+
+        void onAddOperationClicked(Project project);
     }
 }

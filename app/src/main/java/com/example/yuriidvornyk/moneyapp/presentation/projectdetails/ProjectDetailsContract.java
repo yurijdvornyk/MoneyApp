@@ -30,6 +30,6 @@ interface ProjectDetailsContract {
 
         void showOperations(List<Operation> operations);
 
-        void showAddOperationDialog(List<Currency> currencies, String defaultCurrency);
+        void showAddOperationDialog(Project project);
     }
 }

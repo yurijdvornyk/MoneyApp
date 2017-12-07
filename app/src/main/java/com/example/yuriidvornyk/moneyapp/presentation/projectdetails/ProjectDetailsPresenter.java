@@ -44,7 +44,7 @@ class ProjectDetailsPresenter extends BasePresenter<ProjectDetailsContract.View>
 
     @Override
     public void onAddOperationClicked() {
-        getCurrencies.execute(currencies -> view.showAddOperationDialog(currencies, project.getDefaultCurrency()));
+        view.showAddOperationDialog(project);
     }
 
     @Override
