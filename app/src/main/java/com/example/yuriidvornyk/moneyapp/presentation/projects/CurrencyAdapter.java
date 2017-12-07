@@ -42,13 +42,17 @@ public class CurrencyAdapter extends ArrayAdapter<Currency> {
         } else {
             holder = (ViewHolder) convertView.getTag();
         }
-        holder.titleTextView.setText(String.format(CURRENCY_FORMAT, currency.getCode(), currency.getName()));
+        holder.titleTextView.setText(formatItemContent(currency));
         return view;
     }
 
     @Override
     public View getDropDownView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
         return getView(position, convertView, parent);
+    }
+
+    protected String formatItemContent(Currency currency) {
+        return String.format(CURRENCY_FORMAT, currency.getCode(), currency.getName());
     }
 
     class ViewHolder {

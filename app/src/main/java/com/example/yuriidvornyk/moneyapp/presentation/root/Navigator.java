@@ -8,6 +8,7 @@ import com.example.yuriidvornyk.moneyapp.R;
 import com.example.yuriidvornyk.moneyapp.data.model.Project;
 import com.example.yuriidvornyk.moneyapp.presentation.base.BaseActivity;
 import com.example.yuriidvornyk.moneyapp.presentation.base.BaseFragment;
+import com.example.yuriidvornyk.moneyapp.presentation.calculator.CalculatorFragment;
 import com.example.yuriidvornyk.moneyapp.presentation.projectdetails.ProjectDetailsFragment;
 import com.example.yuriidvornyk.moneyapp.presentation.projects.ProjectsFragment;
 
@@ -33,6 +34,10 @@ class Navigator {
 
     <A extends BaseActivity> void navigateToProjectDetails(A activity, Project project) {
         replaceFragment(activity, ProjectDetailsFragment.newInstance(project), true);
+    }
+
+    <A extends BaseActivity>  void navigateToCalculator(A activity) {
+        replaceFragment(activity, CalculatorFragment.newInstance(), true);
     }
 
     <A extends BaseActivity, B extends BaseFragment> boolean onOptionsItemSelected(A activity, MenuItem item) {

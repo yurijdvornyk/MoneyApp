@@ -58,6 +58,8 @@ public class RootActivity extends BaseActivity<RootContract.Presenter> implement
             case R.id.projects:
                 navigator.navigateToProjects(this);
                 return true;
+            case R.id.calculator:
+                navigator.navigateToCalculator(this);
             default:
                 return false;
         }
