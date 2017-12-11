@@ -21,4 +21,6 @@
     <string name="try_again">Try Again</string>
     <string name="add_operation">Add operation</string>
     <string name="from">From</string>
+    <string name="calculator_not_available">Calculator feature is not available now, because currency rates where not loaded</string>
+    <string name="calculator_last_update_time">Rates updated on %1$s, %2$s</string>
 </resources>
