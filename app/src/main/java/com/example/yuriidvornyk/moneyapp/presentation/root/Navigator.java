@@ -11,6 +11,7 @@ import com.example.yuriidvornyk.moneyapp.presentation.base.BaseFragment;
 import com.example.yuriidvornyk.moneyapp.presentation.calculator.CalculatorFragment;
 import com.example.yuriidvornyk.moneyapp.presentation.projectdetails.ProjectDetailsFragment;
 import com.example.yuriidvornyk.moneyapp.presentation.projects.ProjectsFragment;
+import com.example.yuriidvornyk.moneyapp.presentation.settings.SettingsFragment;
 
 /**
  * Created by yurii.dvornyk on 2017-11-23.
@@ -32,12 +33,16 @@ class Navigator {
         replaceFragment(activity, ProjectsFragment.newInstance(), true);
     }
 
-    <A extends BaseActivity> void navigateToProjectDetails(A activity, Project project) {
-        replaceFragment(activity, ProjectDetailsFragment.newInstance(project), true);
+    <A extends BaseActivity> void navigateToCalculator(A activity) {
+        replaceFragment(activity, CalculatorFragment.newInstance(), true);
     }
 
-    <A extends BaseActivity>  void navigateToCalculator(A activity) {
-        replaceFragment(activity, CalculatorFragment.newInstance(), true);
+    <A extends BaseActivity> void navigateToSettings(A activity) {
+        replaceFragment(activity, SettingsFragment.newInstance(), true);
+    }
+
+    <A extends BaseActivity> void navigateToProjectDetails(A activity, Project project) {
+        replaceFragment(activity, ProjectDetailsFragment.newInstance(project), true);
     }
 
     <A extends BaseActivity, B extends BaseFragment> boolean onOptionsItemSelected(A activity, MenuItem item) {

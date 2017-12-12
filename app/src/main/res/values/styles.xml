@@ -36,5 +36,13 @@
         <item name="android:background">?selectableItemBackground</item>
     </style>
 
-    <dimen name="text_balance">36sp</dimen>
+    <style name="SettingsKeyTextStyle">
+        <item name="android:textColor">@color/grey_dark</item>
+        <item name="android:textSize">@dimen/settings_text_key</item>
+    </style>
+
+    <style name="SettingsValueTextStyle">
+        <item name="android:textColor">@color/grey_dark</item>
+        <item name="android:textSize">@dimen/settings_text_value</item>
+    </style>
 </resources>

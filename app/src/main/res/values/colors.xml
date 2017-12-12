@@ -5,9 +5,11 @@
     <color name="colorAccent">#FF4081</color>
 
     <color name="white">#FFFFFF</color>
+    <color name="black">#000000</color>
     <color name="bottom_navigation_background">@color/colorPrimary</color>
     <color name="white_semitransparent">#99FFFFFF</color>
     <color name="green">#003d00</color>
     <color name="red">#a30000</color>
     <color name="grey_semitransparent">#66999999</color>
+    <color name="grey_dark">#333333</color>
 </resources>

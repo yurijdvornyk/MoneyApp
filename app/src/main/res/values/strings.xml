@@ -9,7 +9,7 @@
     <string name="balance_arg">%1$s%2$.2f %3$s</string>
     <string name="project_details">Project Details</string>
     <string name="project_name">Project name</string>
-    <string name="default_currency">Default currency:</string>
+    <string name="default_currency">Default currency</string>
     <string name="add_project">Add Project</string>
     <string name="save">Save</string>
     <string name="cancel">Cancel</string>

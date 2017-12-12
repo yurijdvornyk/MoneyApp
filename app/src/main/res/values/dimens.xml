@@ -7,8 +7,11 @@
     <dimen name="space_double">16dp</dimen>
     <dimen name="space_recycler_with_fab_bottom">72dp</dimen>
 
+    <dimen name="settings_text_key">12sp</dimen>
     <dimen name="text_title">24sp</dimen>
     <dimen name="text_subtitle">20sp</dimen>
     <dimen name="text_item_title">20sp</dimen>
     <dimen name="text_spinner_title">18sp</dimen>
+    <dimen name="text_balance">36sp</dimen>
+    <dimen name="settings_text_value">18sp</dimen>
 </resources>

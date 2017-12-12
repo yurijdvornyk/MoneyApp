@@ -105,7 +105,7 @@ public class CalculatorFragment extends BaseFragment<CalculatorContract.Presente
         return new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                callPresenter(editText, whichEditText);
+                onContentChanged(editText, whichEditText);
             }
 
             @Override
@@ -118,11 +118,11 @@ public class CalculatorFragment extends BaseFragment<CalculatorContract.Presente
     private ListenableEditText.TextChangeListener getTextListener(ListenableEditText editText, CalculatorContract.WhichEditText whichEditText) {
         return text -> {
             if (editText.isFocused())
-                callPresenter(editText, whichEditText);
+                onContentChanged(editText, whichEditText);
         };
     }
 
-    private void callPresenter(ListenableEditText editText, CalculatorContract.WhichEditText whichEditText) {
+    private void onContentChanged(ListenableEditText editText, CalculatorContract.WhichEditText whichEditText) {
         presenter.onContentChanged(
                 ((Currency) binding.spinnerCurrencyFrom.getSelectedItem()).getCode(),
                 ((Currency) binding.spinnerCurrencyTo.getSelectedItem()).getCode(),

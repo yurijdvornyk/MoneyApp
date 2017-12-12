@@ -1,5 +1,8 @@
 package com.example.yuriidvornyk.moneyapp.data;
 
+import android.content.Context;
+import android.content.SharedPreferences;
+
 import com.example.yuriidvornyk.moneyapp.MoneyApplication;
 import com.example.yuriidvornyk.moneyapp.data.datasource.CurrencyDataSource;
 import com.example.yuriidvornyk.moneyapp.data.datasource.MoneyDatabase;
@@ -32,6 +35,8 @@ import io.reactivex.schedulers.Schedulers;
  */
 
 public class Injection {
+
+    public static final String SHARED_PREFERENCES_NAME = "app_shared_preferences";
 
     public static GetProjectsWithBalance provideGetProjects() {
         return new GetProjectsWithBalance(provideProjectRepository(), provideGetBalance(), provideExecutionThread(), provideResultThread());
@@ -67,6 +72,10 @@ public class Injection {
 
     public static LastRatesUpdateTime provideLastRateUpdateTime() {
         return new LastRatesUpdateTime(provideCurrencyRateRepository(), provideExecutionThread(), provideResultThread());
+    }
+
+    public static SharedPreferences provideSharedPreferences(Context context) {
+        return context.getSharedPreferences(SHARED_PREFERENCES_NAME, Context.MODE_PRIVATE);
     }
 
     private static CurrencyRateRepository provideCurrencyRateRepository() {
