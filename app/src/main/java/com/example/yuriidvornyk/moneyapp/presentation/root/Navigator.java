@@ -30,15 +30,15 @@ class Navigator {
     }
 
     <A extends BaseActivity> void navigateToProjects(A activity) {
-        replaceFragment(activity, ProjectsFragment.newInstance(), true);
+        replaceFragment(activity, ProjectsFragment.newInstance(), false);
     }
 
     <A extends BaseActivity> void navigateToCalculator(A activity) {
-        replaceFragment(activity, CalculatorFragment.newInstance(), true);
+        replaceFragment(activity, CalculatorFragment.newInstance(), false);
     }
 
     <A extends BaseActivity> void navigateToSettings(A activity) {
-        replaceFragment(activity, SettingsFragment.newInstance(), true);
+        replaceFragment(activity, SettingsFragment.newInstance(), false);
     }
 
     <A extends BaseActivity> void navigateToProjectDetails(A activity, Project project) {

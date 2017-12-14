@@ -1,5 +1,10 @@
 package com.example.yuriidvornyk.moneyapp.data.usecase.base;
 
+import android.util.Log;
+
+import org.reactivestreams.Subscriber;
+import org.reactivestreams.Subscription;
+
 import io.reactivex.Flowable;
 import io.reactivex.Scheduler;
 import io.reactivex.disposables.CompositeDisposable;
@@ -11,6 +16,8 @@ import io.reactivex.functions.Consumer;
  */
 
 public abstract class UseCase<T> {
+
+    private static final String TAG = UseCase.class.getSimpleName();
 
     private Scheduler callerThread;
     private Scheduler resultThread;
@@ -36,6 +43,10 @@ public abstract class UseCase<T> {
 
     public void execute(Consumer<? super T> onNext, Consumer<? super Throwable> onError, Action onComplete) {
         disposables.add(decorateWithTreads().subscribe(onNext, onError, onComplete));
+    }
+
+    public void execute(Action onComplete) {
+        execute(onNext -> {}, onError -> {}, onComplete);
     }
 
     public void unsubscribe() {

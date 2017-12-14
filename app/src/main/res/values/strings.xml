@@ -23,4 +23,6 @@
     <string name="from">From</string>
     <string name="calculator_not_available">Calculator feature is not available now, because currency rates where not loaded</string>
     <string name="calculator_last_update_time">Rates updated on %1$s, %2$s</string>
+    <string name="auto_set_default_currency_title">Set default currency automatically</string>
+    <string name="auto_set_default_currency_content">Use default currency based on device location locale. If the locale changes, default currency will be changed as well. If currenct currency is not available, value set in the previous item will be set.</string>
 </resources>

@@ -82,7 +82,7 @@ public class ProjectsFragment extends BaseFragment<ProjectsContract.Presenter> i
 
     @Override
     public void showAddProjectDialog(List<Currency> currencies) {
-        final CurrencyAdapter adapter = new CurrencyAdapter(getContext(), R.layout.item_currency_spinner, currencies);
+        final CurrencyAdapter adapter = CurrencyAdapter.newInstance(getContext(), currencies);
         adapter.setDropDownViewResource(R.layout.item_currency_spinner);
         final DialogAddProjectBinding dialogBinding = DialogAddProjectBinding.inflate(
                 LayoutInflater.from(getContext()), (ViewGroup) getView().getParent(), false);

@@ -50,9 +50,8 @@ public class AddOperationDialog extends BaseFragmentDialog<AddOperationContract.
         super.onCreate(savedInstanceState);
         final Project project = Parcels.unwrap(getArguments().getParcelable(ADD_DIALOG_PROJECT_ARG));
         presenter = new AddOperationPresenter(project, Injection.provideGetCurrencies(), Injection.provideAddOperation());
-        adapter = createAdapter(new ArrayList<>());
+        adapter = CurrencyAdapter.newInstance(getContext(), new ArrayList<>());
         presenter.loadCurrencies();
-        defaultSelection = 0;
     }
 
     @NonNull
@@ -82,7 +81,8 @@ public class AddOperationDialog extends BaseFragmentDialog<AddOperationContract.
 
     @Override
     public void setCurrencies(List<Currency> currencies, String defaultCurrency) {
-        adapter = createAdapter(currencies);
+        adapter = CurrencyAdapter.newInstance(getContext(), currencies);
+        defaultSelection = 0;
         for (int i = 0; i < currencies.size(); i++) {
             if (currencies.get(i).getCode().equals(defaultCurrency)) {
                 defaultSelection = i;
@@ -93,9 +93,5 @@ public class AddOperationDialog extends BaseFragmentDialog<AddOperationContract.
             binding.spinnerCurrency.setAdapter(adapter);
             binding.spinnerCurrency.setSelection(defaultSelection);
         }
-    }
-
-    private CurrencyAdapter createAdapter(List<Currency> currencies) {
-        return new CurrencyAdapter(getContext(), R.layout.item_currency_spinner, currencies);
     }
 }

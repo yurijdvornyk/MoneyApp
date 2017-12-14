@@ -48,18 +48,4 @@ public class CurrencyRepository {
             Log.e(TAG, e.getMessage());
         }
     }
-
-    public Flowable<Currency> getCurrencyByCode(String code) {
-        if (currencies.isEmpty()) {
-            readCurrencies();
-        }
-        Currency result = null;
-        for (Currency currency : currencies) {
-            if (code.equals(currency.getCode())) {
-                result = currency;
-                break;
-            }
-        }
-        return result == null ? Flowable.error(new NoSuchElementException(code)) : Flowable.just(result);
-    }
 }

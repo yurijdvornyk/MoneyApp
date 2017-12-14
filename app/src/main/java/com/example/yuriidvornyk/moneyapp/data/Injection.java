@@ -1,8 +1,5 @@
 package com.example.yuriidvornyk.moneyapp.data;
 
-import android.content.Context;
-import android.content.SharedPreferences;
-
 import com.example.yuriidvornyk.moneyapp.MoneyApplication;
 import com.example.yuriidvornyk.moneyapp.data.datasource.CurrencyDataSource;
 import com.example.yuriidvornyk.moneyapp.data.datasource.MoneyDatabase;
@@ -15,15 +12,18 @@ import com.example.yuriidvornyk.moneyapp.data.repository.CurrencyRateRepository;
 import com.example.yuriidvornyk.moneyapp.data.repository.CurrencyRepository;
 import com.example.yuriidvornyk.moneyapp.data.repository.OperationRepository;
 import com.example.yuriidvornyk.moneyapp.data.repository.ProjectRepository;
+import com.example.yuriidvornyk.moneyapp.data.repository.SettingsRepository;
 import com.example.yuriidvornyk.moneyapp.data.usecase.currency.GetCurrencies;
 import com.example.yuriidvornyk.moneyapp.data.usecase.currency.LastRatesUpdateTime;
 import com.example.yuriidvornyk.moneyapp.data.usecase.currency.GetRate;
 import com.example.yuriidvornyk.moneyapp.data.usecase.currency.LoadCurrencyRates;
+import com.example.yuriidvornyk.moneyapp.data.usecase.currency.SaveSettings;
 import com.example.yuriidvornyk.moneyapp.data.usecase.operation.AddOperation;
 import com.example.yuriidvornyk.moneyapp.data.usecase.operation.GetOperations;
 import com.example.yuriidvornyk.moneyapp.data.usecase.projects.AddProject;
 import com.example.yuriidvornyk.moneyapp.data.usecase.projects.GetBalance;
 import com.example.yuriidvornyk.moneyapp.data.usecase.projects.GetProjectsWithBalance;
+import com.example.yuriidvornyk.moneyapp.data.usecase.settings.GetSettings;
 import com.example.yuriidvornyk.moneyapp.service.CurrencyRateService;
 
 import io.reactivex.Scheduler;
@@ -35,8 +35,6 @@ import io.reactivex.schedulers.Schedulers;
  */
 
 public class Injection {
-
-    public static final String SHARED_PREFERENCES_NAME = "app_shared_preferences";
 
     public static GetProjectsWithBalance provideGetProjects() {
         return new GetProjectsWithBalance(provideProjectRepository(), provideGetBalance(), provideExecutionThread(), provideResultThread());
@@ -51,7 +49,7 @@ public class Injection {
     }
 
     public static GetCurrencies provideGetCurrencies() {
-        return new GetCurrencies(new CurrencyRepository(), provideExecutionThread(), provideResultThread());
+        return new GetCurrencies(provideCurrencyRepository(), provideExecutionThread(), provideResultThread());
     }
 
     public static GetOperations provideGetOperations() {
@@ -74,8 +72,16 @@ public class Injection {
         return new LastRatesUpdateTime(provideCurrencyRateRepository(), provideExecutionThread(), provideResultThread());
     }
 
-    public static SharedPreferences provideSharedPreferences(Context context) {
-        return context.getSharedPreferences(SHARED_PREFERENCES_NAME, Context.MODE_PRIVATE);
+    public static SaveSettings provideSaveSettings() {
+        return new SaveSettings(provideSettingsRepository(), provideExecutionThread(), provideResultThread());
+    }
+
+    public static GetSettings provideGetSettings() {
+        return new GetSettings(provideSettingsRepository(), provideExecutionThread(), provideResultThread());
+    }
+
+    private static CurrencyRepository provideCurrencyRepository() {
+        return new CurrencyRepository();
     }
 
     private static CurrencyRateRepository provideCurrencyRateRepository() {
@@ -103,5 +109,9 @@ public class Injection {
 
     private static Scheduler provideResultThread() {
         return AndroidSchedulers.mainThread();
+    }
+
+    private static SettingsRepository provideSettingsRepository() {
+        return new SettingsRepository();
     }
 }
