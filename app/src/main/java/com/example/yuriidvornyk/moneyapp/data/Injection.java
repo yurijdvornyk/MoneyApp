@@ -24,7 +24,7 @@ import com.example.yuriidvornyk.moneyapp.data.usecase.projects.AddProject;
 import com.example.yuriidvornyk.moneyapp.data.usecase.projects.GetBalance;
 import com.example.yuriidvornyk.moneyapp.data.usecase.projects.GetProjectsWithBalance;
 import com.example.yuriidvornyk.moneyapp.data.usecase.settings.GetSettings;
-import com.example.yuriidvornyk.moneyapp.service.CurrencyRateService;
+import com.example.yuriidvornyk.moneyapp.data.service.CurrencyRateService;
 
 import io.reactivex.Scheduler;
 import io.reactivex.android.schedulers.AndroidSchedulers;

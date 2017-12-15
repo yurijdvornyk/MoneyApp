@@ -31,11 +31,9 @@ public class SettingsRepository {
     }
 
     public Flowable<MoneyAppSettings> getSettings() {
-        return Flowable.fromCallable(() -> {
-            final MoneyAppSettings settings = new MoneyAppSettings();
-            settings.setDefaultCurrency(getDefaultCurrency());
-            settings.setAutoSetCurrency(isAutoSetCurrency());
-            return settings;
-        });
+        final MoneyAppSettings settings = new MoneyAppSettings();
+        settings.setDefaultCurrency(getDefaultCurrency());
+        settings.setAutoSetCurrency(isAutoSetCurrency());
+        return Flowable.just(settings);
     }
 }

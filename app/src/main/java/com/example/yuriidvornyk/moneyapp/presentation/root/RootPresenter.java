@@ -1,6 +1,5 @@
 package com.example.yuriidvornyk.moneyapp.presentation.root;
 
-import com.example.yuriidvornyk.moneyapp.data.repository.SettingsRepository;
 import com.example.yuriidvornyk.moneyapp.data.usecase.currency.LastRatesUpdateTime;
 import com.example.yuriidvornyk.moneyapp.data.usecase.currency.LoadCurrencyRates;
 import com.example.yuriidvornyk.moneyapp.data.usecase.currency.SaveSettings;
@@ -45,9 +44,8 @@ class RootPresenter extends BasePresenter<RootContract.View> implements RootCont
     public void start() {
         getSettings.execute(settings -> {
             if (settings.isAutoSetCurrency()) {
-                view.checkLocationPermission();
-            }
-            if (settings.getDefaultCurrency().isEmpty()) {
+                view.updateCurrency();
+            } else if (settings.getDefaultCurrency().isEmpty()) {
                 saveSettings
                         .defaultCurrency(Currency.getInstance(Locale.getDefault()).getCurrencyCode())
                         .execute(() -> {});
@@ -60,11 +58,16 @@ class RootPresenter extends BasePresenter<RootContract.View> implements RootCont
         }, throwable -> loadRates());
     }
 
+    @Override
+    public void onLocaleUpdated(Locale locale) {
+        if (locale != null) {
+            saveSettings.defaultCurrency(Currency.getInstance(locale).getCurrencyCode()).execute(() -> {});
+        }
+    }
+
     private void loadRates() {
         loadCurrencyRates.execute(
                 rates -> view.showCurrencyRatesUpdateSuccess(),
-                throwable -> {
-                    view.showCurrencyRatesUpdateError();
-                });
+                throwable -> view.showCurrencyRatesUpdateError());
     }
 }

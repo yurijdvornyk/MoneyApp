@@ -1,7 +1,7 @@
 package com.example.yuriidvornyk.moneyapp.data.datasource;
 
 import com.example.yuriidvornyk.moneyapp.data.local.DbCurrencyRate;
-import com.example.yuriidvornyk.moneyapp.service.CurrencyRateService;
+import com.example.yuriidvornyk.moneyapp.data.service.CurrencyRateService;
 import com.example.yuriidvornyk.moneyapp.utils.CurrencyRateUtils;
 
 import org.json.JSONArray;

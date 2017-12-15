@@ -23,10 +23,14 @@ import com.example.yuriidvornyk.moneyapp.data.model.Project;
 import com.example.yuriidvornyk.moneyapp.databinding.ActivityRootBinding;
 import com.example.yuriidvornyk.moneyapp.presentation.base.BaseActivity;
 import com.example.yuriidvornyk.moneyapp.utils.PermissionUtils;
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.tasks.OnSuccessListener;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 /**
  * Created by yurii.dvornyk on 2017-11-22.
@@ -40,6 +44,8 @@ public class RootActivity extends BaseActivity<RootContract.Presenter> implement
 
     private ActivityRootBinding binding;
 
+    private FusedLocationProviderClient fusedLocationClient;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -48,6 +54,7 @@ public class RootActivity extends BaseActivity<RootContract.Presenter> implement
         presenter = new RootPresenter(Injection.provideLastRateUpdateTime(), Injection.provideLoadCurrencyRates(),
                 Injection.provideSaveSettings(), Injection.provideGetSettings());
         binding.bottomNavigation.setOnNavigationItemSelectedListener(this::onBottomNavigationItemSelected);
+        fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
     }
 
     @Override
@@ -66,8 +73,8 @@ public class RootActivity extends BaseActivity<RootContract.Presenter> implement
     }
 
     @Override
-    protected void onStart() {
-        super.onStart();
+    protected void onResume() {
+        super.onResume();
         presenter.start();
     }
 
@@ -108,19 +115,29 @@ public class RootActivity extends BaseActivity<RootContract.Presenter> implement
     }
 
     @Override
-    public void checkLocationPermission() {
-        if (!PermissionUtils.isLocationPermissionGranted(this) && Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
-                    LOCATION_PERMISSION_REQUEST_CODE);
+    public void updateCurrency() {
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED ||
+                ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION,
+                    Manifest.permission.ACCESS_COARSE_LOCATION}, LOCATION_PERMISSION_REQUEST_CODE);
         }
     }
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED ||
+                ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            return;
+        }
         switch (requestCode) {
             case LOCATION_PERMISSION_REQUEST_CODE: {
                 if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    Toast.makeText(this, "Permission allowed!", Toast.LENGTH_SHORT).show();
+                    fusedLocationClient.getLastLocation().addOnSuccessListener(location -> {
+                        final Locale locale = getCountry(location.getLatitude(), location.getLongitude());
+                        presenter.onLocaleUpdated(locale);
+                        Toast.makeText(RootActivity.this, locale == null ? "" : locale.getCountry(),
+                                Toast.LENGTH_SHORT).show();
+                    });
                 } else {
                     Toast.makeText(this, "Permission denied!", Toast.LENGTH_SHORT).show();
                 }
@@ -129,5 +146,19 @@ public class RootActivity extends BaseActivity<RootContract.Presenter> implement
             default:
                 super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         }
+    }
+
+    private Locale getCountry(double latitude, double longitude) {
+        final Geocoder geocoder = new Geocoder(this);
+        final List<Address> addresses = new ArrayList<>();
+        try {
+            addresses.addAll(geocoder.getFromLocation(latitude, longitude, 1));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        if (!addresses.isEmpty()) {
+            return addresses.get(0).getLocale();
+        }
+        return null;
     }
 }

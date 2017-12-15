@@ -1,4 +1,4 @@
-package com.example.yuriidvornyk.moneyapp.service;
+package com.example.yuriidvornyk.moneyapp.data.service;
 
 import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 
