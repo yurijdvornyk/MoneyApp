@@ -9,6 +9,7 @@ import com.example.yuriidvornyk.moneyapp.data.model.Project;
 import com.example.yuriidvornyk.moneyapp.presentation.base.BaseActivity;
 import com.example.yuriidvornyk.moneyapp.presentation.base.BaseFragment;
 import com.example.yuriidvornyk.moneyapp.presentation.calculator.CalculatorFragment;
+import com.example.yuriidvornyk.moneyapp.presentation.cards.CardsFragment;
 import com.example.yuriidvornyk.moneyapp.presentation.projectdetails.ProjectDetailsFragment;
 import com.example.yuriidvornyk.moneyapp.presentation.projects.ProjectsFragment;
 import com.example.yuriidvornyk.moneyapp.presentation.settings.SettingsFragment;
@@ -37,6 +38,10 @@ class Navigator {
         replaceFragment(activity, CalculatorFragment.newInstance(), false);
     }
 
+    <A extends BaseActivity> void navigateToCards(A activity) {
+        replaceFragment(activity, CardsFragment.newInstance(), false);
+    }
+
     <A extends BaseActivity> void navigateToSettings(A activity) {
         replaceFragment(activity, SettingsFragment.newInstance(), false);
     }
@@ -45,8 +50,8 @@ class Navigator {
         replaceFragment(activity, ProjectDetailsFragment.newInstance(project), true);
     }
 
-    <A extends BaseActivity, B extends BaseFragment> boolean onOptionsItemSelected(A activity, MenuItem item) {
-        final B fragment = (B) activity.getSupportFragmentManager().findFragmentById(R.id.container);
+    <A extends BaseActivity> boolean onOptionsItemSelected(A activity, MenuItem item) {
+        final Fragment fragment = activity.getSupportFragmentManager().findFragmentById(R.id.container);
         if (fragment != null) {
             fragment.onOptionsItemSelected(item);
             return true;

@@ -45,7 +45,7 @@ public class ProjectsFragment extends BaseFragment<ProjectsContract.Presenter> i
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_projects, container, false);
+        binding = FragmentProjectsBinding.inflate(inflater, container, false);
         presenter = new ProjectsPresenter(Injection.provideGetProjects(), Injection.provideAddProject(),
                 Injection.provideGetCurrencies(), Injection.provideGetBalance());
         adapter = new ProjectsAdapter(getContext(), this);

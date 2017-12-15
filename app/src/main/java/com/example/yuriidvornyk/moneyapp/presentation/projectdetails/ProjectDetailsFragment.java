@@ -59,7 +59,7 @@ public class ProjectDetailsFragment extends BaseFragment<ProjectDetailsContract.
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_project_details, container, false);
+        binding = FragmentProjectDetailsBinding.inflate(inflater, container, false);
         adapter = new OperationsAdapter(getContext());
         binding.recyclerOperations.setAdapter(adapter);
         final LinearLayoutManager layoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);

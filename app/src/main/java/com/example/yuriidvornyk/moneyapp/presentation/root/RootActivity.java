@@ -2,14 +2,10 @@ package com.example.yuriidvornyk.moneyapp.presentation.root;
 
 import android.Manifest;
 import android.app.AlertDialog;
-import android.content.Context;
 import android.content.pm.PackageManager;
 import android.databinding.DataBindingUtil;
 import android.location.Address;
 import android.location.Geocoder;
-import android.location.Location;
-import android.location.LocationManager;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -22,10 +18,8 @@ import com.example.yuriidvornyk.moneyapp.data.Injection;
 import com.example.yuriidvornyk.moneyapp.data.model.Project;
 import com.example.yuriidvornyk.moneyapp.databinding.ActivityRootBinding;
 import com.example.yuriidvornyk.moneyapp.presentation.base.BaseActivity;
-import com.example.yuriidvornyk.moneyapp.utils.PermissionUtils;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
-import com.google.android.gms.tasks.OnSuccessListener;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -85,6 +79,9 @@ public class RootActivity extends BaseActivity<RootContract.Presenter> implement
                 return true;
             case R.id.calculator:
                 navigator.navigateToCalculator(this);
+                return true;
+            case R.id.cards:
+                navigator.navigateToCards(this);
                 return true;
             case R.id.settings:
                 navigator.navigateToSettings(this);

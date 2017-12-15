@@ -41,7 +41,7 @@ public class SettingsFragment extends BaseFragment<SettingsContract.Presenter> i
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         presenter = new SettingsPresenter(Injection.provideGetSettings(), Injection.provideSaveSettings(),
                 Injection.provideGetCurrencies());
-        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_settings, container, false);
+        binding = FragmentSettingsBinding.inflate(inflater, container, false);
         adapter = CurrencyAdapter.newInstance(getContext(), new ArrayList<>());
         binding.spinnerDefaultCurrency.setAdapter(adapter);
         binding.buttonSave.setOnClickListener(v -> onSaveButtonClicked());
